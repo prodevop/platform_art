@@ -269,6 +269,7 @@ class OatFile FINAL {
   static OatFile* OpenDlopen(const std::string& elf_filename,
                              const std::string& location,
                              uint8_t* requested_base,
+                             uint8_t* oat_file_begin,
                              const char* abs_dex_location,
                              std::string* error_msg);
 
@@ -282,7 +283,7 @@ class OatFile FINAL {
                               std::string* error_msg);
 
   explicit OatFile(const std::string& filename, bool executable);
-  bool Dlopen(const std::string& elf_filename, uint8_t* requested_base,
+  bool Dlopen(const std::string& elf_filename, uint8_t* requested_base, uint8_t* oat_file_begin,
               const char* abs_dex_location, std::string* error_msg);
   bool ElfFileOpen(File* file, uint8_t* requested_base,
                    uint8_t* oat_file_begin,  // Override where the file is loaded to if not null

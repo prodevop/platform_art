@@ -117,7 +117,7 @@ OatFile* OatFile::Open(const std::string& filename,
   if (kUseDlopen && (kIsTargetBuild || kUseDlopenOnHost) && executable) {
     // Try to use dlopen. This may fail for various reasons, outlined below. We try dlopen, as
     // this will register the oat file with the linker and allows libunwind to find our info.
-    ret.reset(OpenDlopen(filename, location, requested_base, abs_dex_location, error_msg));
+    ret.reset(OpenDlopen(filename, location, requested_base, oat_file_begin, abs_dex_location, error_msg));
     if (ret.get() != nullptr) {
       return ret.release();
     }
@@ -170,10 +170,11 @@ OatFile* OatFile::OpenReadable(File* file, const std::string& location,
 OatFile* OatFile::OpenDlopen(const std::string& elf_filename,
                              const std::string& location,
                              uint8_t* requested_base,
+                             uint8_t* oat_file_begin,
                              const char* abs_dex_location,
                              std::string* error_msg) {
   std::unique_ptr<OatFile> oat_file(new OatFile(location, true));
-  bool success = oat_file->Dlopen(elf_filename, requested_base, abs_dex_location, error_msg);
+  bool success = oat_file->Dlopen(elf_filename, requested_base, oat_file_begin, abs_dex_location, error_msg);
   if (!success) {
     return nullptr;
   }
@@ -212,13 +213,14 @@ OatFile::~OatFile() {
   }
 }
 
-bool OatFile::Dlopen(const std::string& elf_filename, uint8_t* requested_base,
+bool OatFile::Dlopen(const std::string& elf_filename, uint8_t* requested_base, uint8_t* oat_file_begin,
                      const char* abs_dex_location, std::string* error_msg) {
 #ifdef __APPLE__
   // The dl_iterate_phdr syscall is missing.  There is similar API on OSX,
   // but let's fallback to the custom loading code for the time being.
   UNUSED(elf_filename);
   UNUSED(requested_base);
+  UNUSED(oat_file_begin);
   UNUSED(abs_dex_location);
   UNUSED(error_msg);
   return false;
@@ -231,8 +233,13 @@ bool OatFile::Dlopen(const std::string& elf_filename, uint8_t* requested_base,
 #ifdef HAVE_ANDROID_OS
   android_dlextinfo extinfo;
   extinfo.flags = ANDROID_DLEXT_FORCE_LOAD | ANDROID_DLEXT_FORCE_FIXED_VADDR;
+  if (oat_file_begin != nullptr) {
+    extinfo.flags |= ANDROID_DLEXT_LOAD_AT_FIXED_ADDRESS;
+    extinfo.reserved_addr = oat_file_begin;
+  }
   dlopen_handle_ = android_dlopen_ext(absolute_path.get(), RTLD_NOW, &extinfo);
 #else
+  UNUSED(oat_file_begin);
   dlopen_handle_ = dlopen(absolute_path.get(), RTLD_NOW);
 #endif
   if (dlopen_handle_ == nullptr) {
