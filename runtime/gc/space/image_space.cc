@@ -573,7 +573,7 @@ ImageSpace* ImageSpace::Create(const char* image_location,
       // assume this if we are using a relocated image (i.e. image checksum
       // matches) since this is only different by the offset. We need this to
       // make sure that host tests continue to work.
-      space = ImageSpace::Init(image_filename->c_str(), image_location,
+      space = ImageSpace::Init(image_filename->c_str(), image_location, image_isa,
                                !(is_system || relocated_version_used), error_msg);
     }
     if (space != nullptr) {
@@ -632,7 +632,7 @@ ImageSpace* ImageSpace::Create(const char* image_location,
     // we leave Create.
     ScopedFlock image_lock;
     image_lock.Init(cache_filename.c_str(), error_msg);
-    space = ImageSpace::Init(cache_filename.c_str(), image_location, true, error_msg);
+    space = ImageSpace::Init(cache_filename.c_str(), image_location, image_isa, true, error_msg);
     if (space == nullptr) {
       *error_msg = StringPrintf("Failed to load generated image '%s': %s",
                                 cache_filename.c_str(), error_msg->c_str());
@@ -655,7 +655,7 @@ void ImageSpace::VerifyImageAllocations() {
   }
 }
 
-ImageSpace* ImageSpace::Init(const char* image_filename, const char* image_location,
+ImageSpace* ImageSpace::Init(const char* image_filename, const char* image_location, InstructionSet image_isa,
                              bool validate_oat_file, std::string* error_msg) {
   CHECK(image_filename != nullptr);
   CHECK(image_location != nullptr);
@@ -746,6 +746,11 @@ ImageSpace* ImageSpace::Init(const char* image_filename, const char* image_locat
   // and ArtField::java_lang_reflect_ArtField_, which are used from
   // Object::SizeOf() which VerifyImageAllocations() calls, are not
   // set yet at this point.
+
+  #if 1 // CopperheadOS always uses full WITH_DEXPREOPT + WITH_DEXPREOPT_PIC
+  std::string system_image_filename = GetSystemImageFilename(image_location, image_isa);
+  image_filename = system_image_filename.c_str();
+  #endif
 
   space->oat_file_.reset(space->OpenOatFile(image_filename, error_msg));
   if (space->oat_file_.get() == nullptr) {

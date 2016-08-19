@@ -128,7 +128,7 @@ class ImageSpace : public MemMapSpace {
   // image's OatFile is up-to-date relative to its DexFile
   // inputs. Otherwise (for /data), validate the inputs and generate
   // the OatFile in /data/dalvik-cache if necessary.
-  static ImageSpace* Init(const char* image_filename, const char* image_location,
+  static ImageSpace* Init(const char* image_filename, const char* image_location, InstructionSet image_isa,
                           bool validate_oat_file, std::string* error_msg)
       SHARED_LOCKS_REQUIRED(Locks::mutator_lock_);
 
