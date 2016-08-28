@@ -564,14 +564,17 @@ std::vector<std::unique_ptr<const DexFile>> OatFileManager::OpenDexFilesFromOat(
   // Lock the target oat location to avoid races generating and loading the
   // oat file.
   std::string error_msg;
+#if 0 // CopperheadOS always uses full WITH_DEXPREOPT + WITH_DEXPREOPT_PIC
   if (!oat_file_assistant.Lock(/*out*/&error_msg)) {
     // Don't worry too much if this fails. If it does fail, it's unlikely we
     // can generate an oat file anyway.
     VLOG(class_linker) << "OatFileAssistant::Lock: " << error_msg;
   }
+#endif
 
   const OatFile* source_oat_file = nullptr;
 
+#if 0 // CopperheadOS always uses full WITH_DEXPREOPT + WITH_DEXPREOPT_PIC
   if (!oat_file_assistant.IsUpToDate()) {
     // Update the oat file on disk if we can. This may fail, but that's okay.
     // Best effort is all that matters here.
@@ -591,6 +594,7 @@ std::vector<std::unique_ptr<const DexFile>> OatFileManager::OpenDexFilesFromOat(
         break;
     }
   }
+#endif
 
   // Get the oat file on disk.
   std::unique_ptr<const OatFile> oat_file(oat_file_assistant.GetBestOatFile().release());
