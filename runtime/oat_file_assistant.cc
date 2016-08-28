@@ -219,10 +219,12 @@ std::unique_ptr<OatFile> OatFileAssistant::GetBestOatFile() {
   // 2. Not out-of-date files that are already opened non-executable.
   // 3. Not out-of-date files that we must reopen non-executable.
 
+#if 0 // CopperheadOS always uses full WITH_DEXPREOPT + WITH_DEXPREOPT_PIC
   if (OatFileIsUpToDate()) {
     oat_file_released_ = true;
     return std::move(cached_oat_file_);
   }
+#endif
 
   if (OdexFileIsUpToDate()) {
     oat_file_released_ = true;
