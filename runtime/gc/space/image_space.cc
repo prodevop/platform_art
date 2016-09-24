@@ -521,7 +521,7 @@ ImageSpace* ImageSpace::CreateBootImage(const char* image_location,
       // make sure that host tests continue to work.
       // Since we are the boot image, pass null since we load the oat file from the boot image oat
       // file name.
-      space = ImageSpace::Init(image_filename->c_str(),
+      space = ImageSpace::Init(image_filename->c_str(), system_filename.c_str(),
                                image_location,
                                !(is_system || relocated_version_used),
                                /* oat_file */nullptr,
@@ -586,7 +586,7 @@ ImageSpace* ImageSpace::CreateBootImage(const char* image_location,
     // we leave Create.
     ScopedFlock image_lock;
     image_lock.Init(cache_filename.c_str(), error_msg);
-    space = ImageSpace::Init(cache_filename.c_str(), image_location, true, nullptr, error_msg);
+    space = ImageSpace::Init(cache_filename.c_str(), system_filename.c_str(), image_location, true, nullptr, error_msg);
     if (space == nullptr) {
       *error_msg = StringPrintf("Failed to load generated image '%s': %s",
                                 cache_filename.c_str(), error_msg->c_str());
@@ -1154,7 +1154,7 @@ static bool RelocateInPlace(ImageHeader& image_header,
   return true;
 }
 
-ImageSpace* ImageSpace::Init(const char* image_filename,
+ImageSpace* ImageSpace::Init(const char* image_filename, const char* system_filename,
                              const char* image_location,
                              bool validate_oat_file,
                              const OatFile* oat_file,
@@ -1375,6 +1375,10 @@ ImageSpace* ImageSpace::Init(const char* image_filename,
                                                    bitmap.release(),
                                                    image_end));
 
+  #if 1 // CopperheadOS always uses full WITH_DEXPREOPT + WITH_DEXPREOPT_PIC
+  image_filename = system_filename;
+  #endif
+
   // VerifyImageAllocations() will be called later in Runtime::Init()
   // as some class roots like ArtMethod::java_lang_reflect_ArtMethod_
   // and ArtField::java_lang_reflect_ArtField_, which are used from
@@ -1561,7 +1565,7 @@ void ImageSpace::CreateMultiImageLocations(const std::string& input_image_file_n
 ImageSpace* ImageSpace::CreateFromAppImage(const char* image,
                                            const OatFile* oat_file,
                                            std::string* error_msg) {
-  return gc::space::ImageSpace::Init(image,
+  return gc::space::ImageSpace::Init(image, nullptr,
                                      image,
                                      /*validate_oat_file*/false,
                                      oat_file,
