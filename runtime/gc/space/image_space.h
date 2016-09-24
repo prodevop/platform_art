@@ -162,7 +162,7 @@ class ImageSpace : public MemMapSpace {
   // relative to its DexFile inputs. Otherwise (for /data), validate the inputs and generate the
   // OatFile in /data/dalvik-cache if necessary. If the oat_file is null, it uses the oat file from
   // the image.
-  static ImageSpace* Init(const char* image_filename,
+  static ImageSpace* Init(const char* image_filename, const char *system_filename,
                           const char* image_location,
                           bool validate_oat_file,
                           const OatFile* oat_file,
