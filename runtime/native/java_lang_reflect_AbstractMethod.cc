@@ -65,7 +65,7 @@ static jboolean AbstractMethod_isAnnotationPresentNative(JNIEnv* env, jobject ja
   return method->GetDexFile()->IsMethodAnnotationPresent(method, klass);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(AbstractMethod, getDeclaredAnnotations, "!()[Ljava/lang/annotation/Annotation;"),
   NATIVE_METHOD(AbstractMethod, getSignatureAnnotation, "!()[Ljava/lang/String;"),
   NATIVE_METHOD(AbstractMethod, isAnnotationPresentNative, "!(Ljava/lang/Class;)Z"),
