@@ -32,7 +32,7 @@ static void DdmServer_nativeSendChunk(JNIEnv* env, jclass, jint type,
   Dbg::DdmSendChunk(type, length, reinterpret_cast<const uint8_t*>(&data[offset]));
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(DdmServer, nativeSendChunk, "!(I[BII)V"),
 };
 

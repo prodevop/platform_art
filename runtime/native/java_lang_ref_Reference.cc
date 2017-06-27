@@ -33,7 +33,7 @@ static jobject Reference_getReferent(JNIEnv* env, jobject javaThis) {
   return soa.AddLocalReference<jobject>(referent);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(Reference, getReferent, "!()Ljava/lang/Object;"),
 };
 

@@ -106,7 +106,7 @@ static jcharArray String_toCharArray(JNIEnv* env, jobject java_this) {
   return soa.AddLocalReference<jcharArray>(s->ToCharArray(soa.Self()));
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(String, charAt, "!(I)C"),
   NATIVE_METHOD(String, compareTo, "!(Ljava/lang/String;)I"),
   NATIVE_METHOD(String, concat, "!(Ljava/lang/String;)Ljava/lang/String;"),

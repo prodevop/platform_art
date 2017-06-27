@@ -31,7 +31,7 @@ static jboolean FinalizerReference_makeCircularListIfUnenqueued(JNIEnv* env, job
   return Runtime::Current()->GetHeap()->GetReferenceProcessor()->MakeCircularListIfUnenqueued(ref);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(FinalizerReference, makeCircularListIfUnenqueued, "!()Z"),
 };
 

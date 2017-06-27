@@ -232,7 +232,7 @@ static jint System_identityHashCode(JNIEnv* env, jclass, jobject javaObject) {
   return static_cast<jint>(o->IdentityHashCode());
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(System, arraycopy, "!(Ljava/lang/Object;ILjava/lang/Object;II)V"),
   NATIVE_METHOD(System, arraycopyCharUnchecked, "!([CI[CII)V"),
   NATIVE_METHOD(System, arraycopyByteUnchecked, "!([BI[BII)V"),

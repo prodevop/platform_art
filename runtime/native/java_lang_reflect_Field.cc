@@ -462,7 +462,7 @@ static jboolean Field_isAnnotationPresentNative(JNIEnv* env, jobject javaField,
   return field->GetDexFile()->IsFieldAnnotationPresent(field, klass);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(Field, get,        "!(Ljava/lang/Object;)Ljava/lang/Object;"),
   NATIVE_METHOD(Field, getBoolean, "!(Ljava/lang/Object;)Z"),
   NATIVE_METHOD(Field, getByte,    "!(Ljava/lang/Object;)B"),

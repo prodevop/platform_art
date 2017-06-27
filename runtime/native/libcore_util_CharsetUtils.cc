@@ -249,7 +249,7 @@ static jbyteArray CharsetUtils_toUtf8Bytes(JNIEnv* env, jclass, jstring java_str
   return out.toByteArray();
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(CharsetUtils, asciiBytesToChars, "!([BII[C)V"),
   NATIVE_METHOD(CharsetUtils, isoLatin1BytesToChars, "!([BII[C)V"),
   NATIVE_METHOD(CharsetUtils, toAsciiBytes, "!(Ljava/lang/String;II)[B"),

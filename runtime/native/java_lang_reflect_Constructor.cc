@@ -177,7 +177,7 @@ static jobject Constructor_newInstanceFromSerialization(JNIEnv* env, jclass unus
     return env->NewObject(allocClass, ctor);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(Constructor, getAnnotationNative,
                 "!(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;"),
   NATIVE_METHOD(Constructor, getDeclaredAnnotations, "!()[Ljava/lang/annotation/Annotation;"),

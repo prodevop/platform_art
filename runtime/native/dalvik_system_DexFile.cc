@@ -590,7 +590,7 @@ static jstring DexFile_getDexFileOutputPath(JNIEnv* env,
   return env->NewStringUTF(best_oat_file->GetLocation().c_str());
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(DexFile, closeDexFile, "(Ljava/lang/Object;)Z"),
   NATIVE_METHOD(DexFile,
                 defineClassNative,

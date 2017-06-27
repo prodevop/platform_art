@@ -53,7 +53,7 @@ static void Object_waitJI(JNIEnv* env, jobject java_this, jlong ms, jint ns) {
   o->Wait(soa.Self(), ms, ns);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(Object, internalClone, "!()Ljava/lang/Object;"),
   NATIVE_METHOD(Object, notify, "!()V"),
   NATIVE_METHOD(Object, notifyAll, "!()V"),

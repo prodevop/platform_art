@@ -79,7 +79,7 @@ static void DexCache_setResolvedString(JNIEnv* env, jobject javaDexCache, jint s
   dex_cache->SetResolvedString(string_index, soa.Decode<mirror::String*>(string));
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(DexCache, getDexNative, "!()Lcom/android/dex/Dex;"),
   NATIVE_METHOD(DexCache, getResolvedType, "!(I)Ljava/lang/Class;"),
   NATIVE_METHOD(DexCache, getResolvedString, "!(I)Ljava/lang/String;"),

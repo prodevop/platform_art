@@ -102,7 +102,7 @@ static jobject Method_invoke(JNIEnv* env, jobject javaMethod, jobject javaReceiv
   return InvokeMethod(soa, javaMethod, javaReceiver, javaArgs);
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(Method, getAnnotationNative,
                 "!(Ljava/lang/Class;)Ljava/lang/annotation/Annotation;"),
   NATIVE_METHOD(Method, getDefaultValue, "!()Ljava/lang/Object;"),
