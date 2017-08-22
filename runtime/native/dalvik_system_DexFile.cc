@@ -718,7 +718,7 @@ static jobjectArray DexFile_getDexFileOutputPaths(JNIEnv* env,
   return result;
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   NATIVE_METHOD(DexFile, closeDexFile, "(Ljava/lang/Object;)Z"),
   NATIVE_METHOD(DexFile,
                 defineClassNative,
