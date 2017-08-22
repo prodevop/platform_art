@@ -29,7 +29,7 @@ static jclass Void_lookupType(JNIEnv* env, jclass) {
       Runtime::Current()->GetClassLinker()->GetClassRoot(ClassLinker::kPrimitiveVoid));
 }
 
-static JNINativeMethod gMethods[] = {
+static const JNINativeMethod gMethods[] = {
   FAST_NATIVE_METHOD(Void, lookupType, "()Ljava/lang/Class;"),
 };
 
